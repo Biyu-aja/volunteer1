@@ -2,7 +2,7 @@ import axios from "axios";
 
 // Menggunakan library pre-existing (axios) untuk komunikasi dengan REST API backend
 const api = axios.create({
-  baseURL: "/api",
+  baseURL: import.meta.env.VITE_API_URL || "/api",
 });
 
 // Interceptor: menyisipkan token JWT ke setiap request otomatis

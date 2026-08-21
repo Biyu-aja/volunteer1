@@ -135,7 +135,7 @@ const popularEvents = asyncHandler(async (req, res) => {
     LEFT JOIN registrations r ON r.event_id = e.id AND r.status IN ('pending','approved')
     LEFT JOIN categories c ON e.category_id = c.id
     LEFT JOIN organizations o ON e.organization_id = o.id
-    GROUP BY e.id, c.name, o.org_name
+    GROUP BY e.id, e.title, e.quota, e.location, e.event_date, c.name, o.org_name
     ORDER BY total_pendaftar DESC
     LIMIT 5
   `);

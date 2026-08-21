@@ -2,7 +2,7 @@
 
 Platform yang menghubungkan **relawan (volunteer)** dengan **organisasi/yayasan** penyelenggara kegiatan sosial (lingkungan, pendidikan, bencana, kesehatan, dll) secara interaktif, responsif, dan premium.
 
-**Stack:** React (Vite) — Node.js/Express — MySQL (Sequelize ORM)
+**Stack:** React (Vite) — Node.js/Express — PostgreSQL (Sequelize ORM)
 
 ---
 
@@ -12,13 +12,13 @@ Platform yang menghubungkan **relawan (volunteer)** dengan **organisasi/yayasan*
 volunteer/
 ├── backend/
 │   ├── src/
-│   │   ├── config/database.jsx       # Koneksi Sequelize ORM ke database MySQL & Connection Pooling
+│   │   ├── config/database.jsx       # Koneksi Sequelize ORM ke database PostgreSQL & Connection Pooling
 │   │   ├── models/                  # Representasi skema database (Entity) & hubungan antar tabel (Asosiasi)
 │   │   ├── controllers/             # Lapisan pengendali logika bisnis tiap domain/resource
 │   │   ├── routes/                  # Definisi rute/endpoint REST API dan otorisasi middleware
 │   │   ├── middleware/              # Autentikasi token JWT (RBAC) & penanganan error terpusat
 │   │   ├── utils/                   # Class error kustom (OOP) & helper async handler
-│   │   ├── sql/schema.sql           # Skema DDL MySQL murni + contoh query JOIN & agregasi GROUP BY
+│   │   ├── sql/schema.sql           # Skema DDL PostgreSQL murni + contoh query JOIN & agregasi GROUP BY
 │   │   ├── seed/seed.jsx            # Pengisian data dummy awal untuk demo (Relawan, Yayasan, Kategori, Event)
 │   │   ├── app.jsx / server.jsx     # Inisialisasi Express app & konfigurasi server utama
 │   │   └── test_api.jsx             # Berkas uji endpoint REST API backend mandiri
@@ -34,7 +34,7 @@ volunteer/
 ```
 
 ### Penjelasan Rinci Berkas Backend (`backend/src/`)
-*   **`config/database.jsx`**: Mengatur koneksi basis data MySQL dengan Sequelize ORM menggunakan database pooling (`max: 10`, `min: 0`) untuk optimasi resource memori server.
+*   **`config/database.jsx`**: Mengatur koneksi basis data PostgreSQL dengan Sequelize ORM menggunakan database pooling (`max: 10`, `min: 0`) untuk optimasi resource memori server.
 *   **`models/` (Rancangan Entitas & Hubungan - Kompetensi #2)**:
     *   `index.jsx`: Pusat deklarasi relasi asosiasi data. Mendefinisikan relasi 1-to-1 (`User` ↔ `Organization`), 1-to-Many (`Organization` ↔ `Event`, `Category` ↔ `Event`), dan Many-to-Many (`User` ↔ `Event` melalui tabel perantara `Registration`).
     *   `User.jsx`: Skema pengguna untuk menyimpan data nama lengkap, email, password_hash, dan peran (role).
@@ -84,7 +84,7 @@ sequenceDiagram
     actor U as Pengguna (Relawan/Yayasan)
     participant F as React Frontend
     participant B as Express Backend
-    participant DB as MySQL Database
+    participant DB as PostgreSQL Database
 
     rect rgb(30, 40, 50)
     Note over U, DB: Alur Autentikasi & Login

@@ -9,7 +9,25 @@ const categoryRoutes = require("./routes/categoryRoutes");
 const organizationRoutes = require("./routes/organizationRoutes");
 const errorHandler = require("./middleware/errorHandler");
 
+const { sequelize } = require("./models");
+let dbConnected = false;
+
 const app = express();
+
+app.use(async (req, res, next) => {
+  if (process.env.VERCEL && !dbConnected) {
+    try {
+      await sequelize.authenticate();
+      await sequelize.sync({ alter: true });
+      dbConnected = true;
+      console.log("✅ Database initialized successfully on Vercel");
+    } catch (err) {
+      console.error("❌ Database initialization failed:", err.message);
+      return next(err);
+    }
+  }
+  next();
+});
 
 app.use(cors());
 app.use(express.json());
