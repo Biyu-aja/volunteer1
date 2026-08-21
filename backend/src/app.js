@@ -14,6 +14,8 @@ let dbConnected = false;
 
 const app = express();
 
+app.use(cors());
+
 app.use(async (req, res, next) => {
   if (process.env.VERCEL && !dbConnected) {
     try {
@@ -29,7 +31,6 @@ app.use(async (req, res, next) => {
   next();
 });
 
-app.use(cors());
 app.use(express.json());
 app.use(morgan("dev"));
 
