@@ -20,7 +20,6 @@ app.use(async (req, res, next) => {
   if (process.env.VERCEL && !dbConnected) {
     try {
       await sequelize.authenticate();
-      await sequelize.sync({ alter: true });
       dbConnected = true;
       console.log("✅ Database initialized successfully on Vercel");
     } catch (err) {
