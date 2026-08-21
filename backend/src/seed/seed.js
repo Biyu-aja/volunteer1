@@ -1,4 +1,3 @@
-require.extensions['.jsx'] = require.extensions['.js'];
 require("dotenv").config();
 const { sequelize, User, Organization, Category, Event } = require("../models");
 

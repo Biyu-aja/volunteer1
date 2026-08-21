@@ -2,11 +2,11 @@
   "name": "voluntree-backend",
   "version": "1.0.0",
   "description": "Backend API untuk VolunTree - Volunteer Platform",
-  "main": "src/server.jsx",
+  "main": "src/server.js",
   "scripts": {
-    "start": "node src/server.jsx",
-    "dev": "nodemon src/server.jsx",
-    "seed": "node src/seed/seed.jsx"
+    "start": "node src/server.js",
+    "dev": "nodemon src/server.js",
+    "seed": "node src/seed/seed.js"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",

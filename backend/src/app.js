@@ -1,4 +1,3 @@
-require.extensions['.jsx'] = require.extensions['.js'];
 const express = require("express");
 const cors = require("cors");
 const morgan = require("morgan");
