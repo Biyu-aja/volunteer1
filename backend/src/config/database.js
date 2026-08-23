@@ -1,6 +1,9 @@
 const { Sequelize } = require("sequelize");
 require("dotenv").config();
 
+// Memaksa Vercel/NFT (Node File Trace) untuk menyertakan package 'pg' ke dalam bundle
+require("pg");
+
 let sequelize;
 
 if (process.env.DATABASE_URL) {
