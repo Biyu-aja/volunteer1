@@ -238,7 +238,7 @@ export default function OrgDashboard() {
                   {categories.map((c) => <option key={c.id} value={c.id}>{c.name}</option>)}
                 </select>
               </div>
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div className="space-y-1">
                   <label className="text-xs font-bold text-emerald-950">Kuota Relawan</label>
                   <input className="glass-input" type="number" name="quota" min={1} required value={form.quota} onChange={handleEventChange} />
@@ -248,7 +248,7 @@ export default function OrgDashboard() {
                   <input className="glass-input" type="date" name="event_date" required value={form.event_date} onChange={handleEventChange} />
                 </div>
               </div>
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div className="space-y-1">
                   <label className="text-xs font-bold text-emerald-950">Jam Mulai</label>
                   <input className="glass-input" type="time" name="start_time" required value={form.start_time} onChange={handleEventChange} />
