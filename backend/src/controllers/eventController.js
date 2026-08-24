@@ -7,6 +7,7 @@ const asyncHandler = require("../utils/asyncHandler");
 const listEvents = asyncHandler(async (req, res) => {
   const { search, category_id, status } = req.query;
 
+  // Struktur kontrol: membangun kondisi WHERE secara dinamis
   const where = {};
   if (status) where.status = status;
   if (category_id) where.category_id = category_id;
@@ -25,7 +26,7 @@ const listEvents = asyncHandler(async (req, res) => {
           sequelize.literal(`(
             SELECT COUNT(*)
             FROM registrations AS r
-            WHERE r.event_id = "event"."id" AND r.status = 'approved'
+            WHERE r.event_id = "Event"."id" AND r.status = 'approved'
           )`),
           'approved_count'
         ]
@@ -63,7 +64,7 @@ const getEventById = asyncHandler(async (req, res) => {
   });
 });
 
-// POST /api/events (role: admin)
+// POST /api/events  (role: admin)
 const createEvent = asyncHandler(async (req, res) => {
   const { title, description, location, quota, category_id, event_date, start_time, end_time } = req.body;
 
@@ -103,14 +104,14 @@ const deleteEvent = asyncHandler(async (req, res) => {
   res.json({ success: true, message: "Event berhasil dihapus" });
 });
 
-// GET /api/events/stats/popular
+// GET /api/events/stats/popular -> contoh RAW SQL query (JOIN + GROUP BY) untuk kompetensi "Menggunakan SQL"
 const popularEvents = asyncHandler(async (req, res) => {
   const [results] = await sequelize.query(`
     SELECT e.id, e.title, e.quota, e.location, e.event_date,
            c.name AS category_name,
            COUNT(r.id) AS total_pendaftar,
            (e.quota - COUNT(r.id)) AS sisa_kuota
-    FROM event e
+    FROM events e
     LEFT JOIN registrations r ON r.event_id = e.id AND r.status IN ('pending','approved')
     LEFT JOIN categories c ON e.category_id = c.id
     GROUP BY e.id, e.title, e.quota, e.location, e.event_date, c.name
@@ -168,3 +169,4 @@ module.exports = {
   popularEvents,
   publicStats,
 };
+
