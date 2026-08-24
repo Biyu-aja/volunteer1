@@ -12,6 +12,7 @@ export default function EventDetail() {
   const { user } = useAuth();
   const [event, setEvent] = useState(null);
   const [status, setStatus] = useState({ loading: false, message: "", error: false });
+  const [isAlreadyApplied, setIsAlreadyApplied] = useState(false);
 
   function loadEvent() {
     eventApi.getById(id).then((res) => setEvent(res.data.data));
@@ -19,11 +20,24 @@ export default function EventDetail() {
 
   useEffect(() => { loadEvent(); }, [id]);
 
+  useEffect(() => {
+    if (user?.role === "volunteer") {
+      registrationApi.myRegistrations()
+        .then((res) => {
+          const list = res.data.data;
+          const found = list.some((r) => r.event_id === Number(id));
+          setIsAlreadyApplied(found);
+        })
+        .catch((err) => console.error("Error checking registration status:", err));
+    }
+  }, [user, id]);
+
   async function handleApply() {
     setStatus({ loading: true, message: "", error: false });
     try {
       await registrationApi.apply(Number(id));
       setStatus({ loading: false, message: "Pendaftaran berhasil dikirim! Menunggu konfirmasi organisasi.", error: false });
+      setIsAlreadyApplied(true);
       loadEvent();
     } catch (err) {
       setStatus({ loading: false, message: err.message, error: true });
@@ -88,8 +102,20 @@ export default function EventDetail() {
 
       {user?.role === "volunteer" && (
         <div className="pt-2 text-left">
-          <button className="btn-pill-primary w-full sm:w-auto text-sm px-8 py-3.5" onClick={handleApply} disabled={status.loading || event.remaining_quota === 0}>
-            {event.remaining_quota === 0 ? "Kuota Penuh" : status.loading ? "Mengirim..." : "Daftar Sebagai Volunteer"}
+          <button 
+            className={isAlreadyApplied 
+              ? "inline-flex items-center justify-center gap-1.5 px-8 py-3.5 font-bold rounded-full border-2 border-gray-200 text-gray-400 bg-gray-50/50 w-full sm:w-auto text-sm cursor-not-allowed" 
+              : "btn-pill-primary w-full sm:w-auto text-sm px-8 py-3.5"} 
+            onClick={handleApply} 
+            disabled={status.loading || event.remaining_quota === 0 || isAlreadyApplied}
+          >
+            {isAlreadyApplied 
+              ? "Sudah Terdaftar" 
+              : event.remaining_quota === 0 
+                ? "Kuota Penuh" 
+                : status.loading 
+                  ? "Mengirim..." 
+                  : "Daftar Sebagai Volunteer"}
           </button>
           {status.message && (
             <p className={`mt-3 font-semibold text-sm ${status.error ? "text-red-600" : "text-emerald-700"}`}>
