@@ -156,6 +156,12 @@ export default function OrgDashboard() {
         <p className="text-gray-500 text-sm">Kelola informasi yayasan dan publikasi kegiatan volunteer Anda.</p>
       </div>
 
+      {orgError && (
+        <div className="p-4 bg-rose-50 border border-rose-100 rounded-2xl text-rose-800 text-sm font-semibold">
+          ⚠️ {orgError}
+        </div>
+      )}
+
       {/* Tabs Navigation */}
       <div className="flex gap-2 border-b border-gray-200 pb-2">
         <button 

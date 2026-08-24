@@ -27,7 +27,7 @@ const listEvents = asyncHandler(async (req, res) => {
           sequelize.literal(`(
             SELECT COUNT(*)
             FROM registrations AS r
-            WHERE r.event_id = Event.id AND r.status = 'approved'
+            WHERE r.event_id = "Event"."id" AND r.status = 'approved'
           )`),
           'approved_count'
         ]
