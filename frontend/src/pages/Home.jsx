@@ -103,7 +103,7 @@ export default function Home() {
 
           <div className="bg-white/5 border border-white/10 rounded-3xl p-6 backdrop-blur-sm shadow-2xl space-y-6">
             <h3 className="text-lg font-bold text-white">Komunitas yang bergerak</h3>
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
               <div className="bg-white/5 border border-white/10 rounded-2xl p-4">
                 <strong className="block text-2xl font-extrabold text-white">{stats.volunteers}</strong>
                 <span className="text-xs text-emerald-200/80">Volunteer aktif</span>
@@ -115,10 +115,6 @@ export default function Home() {
                 <span className="text-xs text-emerald-200/80">
                   {stats.eventsThisMonth > 0 ? "Event bulan ini" : "Event terdaftar"}
                 </span>
-              </div>
-              <div className="bg-white/5 border border-white/10 rounded-2xl p-4">
-                <strong className="block text-2xl font-extrabold text-white">{stats.organizations}</strong>
-                <span className="text-xs text-emerald-200/80">Organisasi terhubung</span>
               </div>
               <div className="bg-white/5 border border-white/10 rounded-2xl p-4">
                 <strong className="block text-2xl font-extrabold text-white">{stats.satisfactionRate}%</strong>
@@ -162,8 +158,8 @@ export default function Home() {
           </div>
           <div className="glass-card p-6 rounded-3xl space-y-3">
             <div className="inline-flex w-12 h-12 rounded-2xl items-center justify-center text-2xl bg-blue-50 text-blue-600">🤝</div>
-            <h3 className="font-bold text-lg text-emerald-950">Terhubung dengan komunitas</h3>
-            <p className="text-gray-500 text-sm">Temukan organisasi dan relawan lain yang memiliki semangat yang sama untuk menciptakan perubahan.</p>
+            <h3 className="font-bold text-lg text-emerald-950">Terhubung dengan sesama</h3>
+            <p className="text-gray-500 text-sm">Temukan relawan lain yang memiliki semangat yang sama untuk menciptakan perubahan.</p>
           </div>
           <div className="glass-card p-6 rounded-3xl space-y-3">
             <div className="inline-flex w-12 h-12 rounded-2xl items-center justify-center text-2xl bg-amber-50 text-amber-600">✨</div>
@@ -197,7 +193,7 @@ export default function Home() {
                   <span>📅</span> {new Date(pe.event_date).toLocaleDateString("id-ID", { day: "numeric", month: "long", year: "numeric" })}
                 </p>
                 <div className="border-t border-gray-100/80 pt-3 mt-auto text-xs font-bold text-emerald-800/80">
-                  🏢 {pe.org_name}
+                  🏢 Voluntree Foundation
                 </div>
               </Link>
             ))}

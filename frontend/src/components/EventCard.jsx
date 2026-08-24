@@ -34,7 +34,7 @@ export default function EventCard({ event }) {
       </div>
 
       <div className="border-t border-gray-100/80 pt-3 mt-4 text-xs font-bold text-emerald-800/80">
-        🏢 {event.Organization?.org_name}
+        🏢 Voluntree Foundation
       </div>
     </Link>
   );

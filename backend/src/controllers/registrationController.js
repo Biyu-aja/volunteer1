@@ -1,4 +1,4 @@
-const { Event, Registration, Organization, User } = require("../models");
+const { Event, Registration, User } = require("../models");
 const ApiError = require("../utils/ApiError");
 const asyncHandler = require("../utils/asyncHandler");
 
@@ -43,15 +43,10 @@ const myRegistrations = asyncHandler(async (req, res) => {
   res.json({ success: true, data: registrations });
 });
 
-// GET /api/registrations/event/:eventId -> daftar pendaftar suatu event (role: organization pemilik)
+// GET /api/registrations/event/:eventId -> daftar pendaftar suatu event (role: admin)
 const listByEvent = asyncHandler(async (req, res) => {
-  const org = await Organization.findOne({ where: { user_id: req.user.id } });
   const event = await Event.findByPk(req.params.eventId);
   if (!event) throw ApiError.notFound("Event tidak ditemukan");
-  if (!org || event.organization_id !== org.id) throw ApiError.forbidden("Bukan pemilik event ini");
-  if (!org.is_verified) {
-    throw ApiError.forbidden("Organisasi Anda belum diverifikasi oleh admin");
-  }
 
   const registrations = await Registration.findAll({
     where: { event_id: req.params.eventId },
@@ -62,7 +57,7 @@ const listByEvent = asyncHandler(async (req, res) => {
   res.json({ success: true, data: registrations });
 });
 
-// PATCH /api/registrations/:id/status  { status } (role: organization pemilik event)
+// PATCH /api/registrations/:id/status  { status } (role: admin)
 const updateStatus = asyncHandler(async (req, res) => {
   const { status } = req.body;
   const validStatuses = ["pending", "approved", "rejected", "attended"];
@@ -74,14 +69,6 @@ const updateStatus = asyncHandler(async (req, res) => {
 
   const event = registration.Event || registration.event;
   if (!event) throw ApiError.badRequest("Data kegiatan terasosiasi tidak ditemukan");
-
-  const org = await Organization.findOne({ where: { user_id: req.user.id } });
-  if (!org || event.organization_id !== org.id) {
-    throw ApiError.forbidden("Anda tidak berwenang mengubah status ini");
-  }
-  if (!org.is_verified) {
-    throw ApiError.forbidden("Organisasi Anda belum diverifikasi oleh admin");
-  }
 
   registration.status = status;
   await registration.save();

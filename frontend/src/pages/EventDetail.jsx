@@ -58,8 +58,7 @@ export default function EventDetail() {
         )}
         <h1 className="text-3xl md:text-4xl font-display font-bold text-emerald-950">{event.title}</h1>
         <p className="text-gray-500 text-sm">
-          Diselenggarakan oleh <strong className="text-emerald-900">{event.Organization?.org_name}</strong>
-          {event.Organization?.is_verified && " ✅"}
+          Diselenggarakan oleh <strong className="text-emerald-900">Voluntree Foundation</strong>
         </p>
       </div>
 

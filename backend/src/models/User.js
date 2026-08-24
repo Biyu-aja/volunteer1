@@ -27,7 +27,7 @@ User.init(
     },
     password_hash: { type: DataTypes.STRING(255), allowNull: false },
     role: {
-      type: DataTypes.ENUM("volunteer", "organization", "admin"),
+      type: DataTypes.ENUM("volunteer", "admin"),
       defaultValue: "volunteer",
     },
     phone: { type: DataTypes.STRING(20), allowNull: true },

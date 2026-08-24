@@ -27,15 +27,3 @@ export const registrationApi = {
 export const categoryApi = {
   list: () => api.get("/api/categories"),
 };
-
-export const organizationApi = {
-  list: () => api.get("/api/organizations"),
-  me: () => api.get("/api/organizations/me"),
-  update: (payload) => api.put("/api/organizations/me", payload),
-};
-
-export const adminApi = {
-  listOrganizations: () => api.get("/api/organizations/admin/all"),
-  setOrganizationVerification: (id, is_verified) =>
-    api.patch(`/api/organizations/${id}/verify`, { is_verified }),
-};

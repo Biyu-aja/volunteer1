@@ -40,11 +40,8 @@ export default function Navbar() {
           {user?.role === "volunteer" && (
             <Link to="/dashboard" className="text-gray-500 hover:text-emerald-800 font-semibold transition-colors">Dashboard Saya</Link>
           )}
-          {user?.role === "organization" && (
-            <Link to="/org/dashboard" className="text-gray-500 hover:text-emerald-800 font-semibold transition-colors">Kelola Kegiatan</Link>
-          )}
           {user?.role === "admin" && (
-            <Link to="/admin/dashboard" className="text-gray-500 hover:text-emerald-800 font-semibold transition-colors">Verifikasi Organisasi</Link>
+            <Link to="/admin/dashboard" className="text-gray-500 hover:text-emerald-800 font-semibold transition-colors">Kelola Kegiatan</Link>
           )}
 
           {user && (
@@ -101,22 +98,13 @@ export default function Navbar() {
                 Dashboard Saya
               </Link>
             )}
-            {user?.role === "organization" && (
-              <Link 
-                to="/org/dashboard" 
-                className="text-gray-600 hover:text-emerald-800 font-semibold py-1.5 transition-colors"
-                onClick={() => setIsOpen(false)}
-              >
-                Kelola Kegiatan
-              </Link>
-            )}
             {user?.role === "admin" && (
               <Link 
                 to="/admin/dashboard" 
                 className="text-gray-600 hover:text-emerald-800 font-semibold py-1.5 transition-colors"
                 onClick={() => setIsOpen(false)}
               >
-                Verifikasi Organisasi
+                Kelola Kegiatan
               </Link>
             )}
           </div>

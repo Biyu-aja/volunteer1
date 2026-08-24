@@ -15,7 +15,6 @@ class Event extends Model {
 Event.init(
   {
     id: { type: DataTypes.INTEGER, autoIncrement: true, primaryKey: true },
-    organization_id: { type: DataTypes.INTEGER, allowNull: false },
     category_id: { type: DataTypes.INTEGER, allowNull: true },
     title: { type: DataTypes.STRING(180), allowNull: false },
     description: { type: DataTypes.TEXT, allowNull: false },

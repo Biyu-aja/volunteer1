@@ -2,7 +2,6 @@ CREATE DATABASE voluntree_db;
 
 CREATE TYPE enum_users_role AS ENUM (
     'volunteer',
-    'organization',
     'admin'
 );
 
@@ -32,17 +31,6 @@ CREATE TABLE users (
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
-CREATE TABLE organizations (
-    id SERIAL PRIMARY KEY,
-    user_id INTEGER NOT NULL UNIQUE,
-    org_name VARCHAR(150) NOT NULL,
-    description TEXT,
-    address VARCHAR(255),
-    is_verified BOOLEAN DEFAULT FALSE,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
-);
-
 CREATE TABLE categories (
     id SERIAL PRIMARY KEY,
     name VARCHAR(100) NOT NULL UNIQUE
@@ -50,7 +38,6 @@ CREATE TABLE categories (
 
 CREATE TABLE events (
     id SERIAL PRIMARY KEY,
-    organization_id INTEGER NOT NULL,
     category_id INTEGER,
     title VARCHAR(180) NOT NULL,
     description TEXT NOT NULL,
@@ -61,7 +48,6 @@ CREATE TABLE events (
     end_time TIME NOT NULL,
     status enum_events_status DEFAULT 'published',
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (organization_id) REFERENCES organizations(id) ON DELETE CASCADE,
     FOREIGN KEY (category_id) REFERENCES categories(id) ON DELETE SET NULL
 );
 

@@ -1,5 +1,5 @@
 require("dotenv").config();
-const { sequelize, User, Organization, Category, Event } = require("../models");
+const { sequelize, User, Category, Event } = require("../models");
 
 async function seed() {
   await sequelize.sync({ force: true });
@@ -18,21 +18,6 @@ async function seed() {
     role: "admin",
   });
 
-  const orgUser = await User.create({
-    full_name: "Budi Santoso",
-    email: "org@volunteer.id",
-    password_hash: "org12345",
-    role: "organization",
-  });
-
-  const org = await Organization.create({
-    user_id: orgUser.id,
-    org_name: "Komunitas Peduli Bandung",
-    description: "Komunitas volunteer aktif untuk isu lingkungan dan sosial di Bandung.",
-    address: "Jl. Dago No. 10, Bandung",
-    is_verified: true,
-  });
-
   const volunteer = await User.create({
     full_name: "Siti Aminah",
     email: "volunteer@volunteer.id",
@@ -42,7 +27,6 @@ async function seed() {
 
   await Event.bulkCreate([
     {
-      organization_id: org.id,
       category_id: categories[0].id,
       title: "Bersih-Bersih Sungai Cikapundung",
       description: "Kegiatan gotong royong membersihkan sampah di sepanjang Sungai Cikapundung.",
@@ -53,7 +37,6 @@ async function seed() {
       end_time: "11:00:00",
     },
     {
-      organization_id: org.id,
       category_id: categories[1].id,
       title: "Mengajar Baca Tulis untuk Anak Jalanan",
       description: "Program pendampingan belajar membaca dan menulis untuk anak-anak di sekitar kota.",
@@ -67,7 +50,6 @@ async function seed() {
 
   console.log("✅ Seed selesai. Akun demo:");
   console.log("   Admin      : admin@volunteer.id / admin123");
-  console.log("   Organisasi : org@volunteer.id / org12345");
   console.log("   Volunteer  : volunteer@volunteer.id / vol12345");
   process.exit(0);
 }

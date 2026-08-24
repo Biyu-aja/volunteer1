@@ -1,120 +1,112 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { useNavigate } from "react-router-dom";
-import { organizationApi } from "../api/resources";
 
 export default function Komunitas() {
-  const [organizations, setOrganizations] = useState([]);
-  const [searchQuery, setSearchQuery] = useState("");
-  const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
-  useEffect(() => {
-    setLoading(true);
-    organizationApi
-      .list()
-      .then((res) => {
-        if (res.data && res.data.data) {
-          setOrganizations(res.data.data);
-        }
-      })
-      .catch((err) => console.error("Error fetching organizations:", err))
-      .finally(() => setLoading(false));
-  }, []);
-
-  // Filter organisasi berdasarkan pencarian lokal
-  const filteredOrgs = organizations.filter((org) =>
-    org.org_name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    (org.address && org.address.toLowerCase().includes(searchQuery.toLowerCase())) ||
-    (org.description && org.description.toLowerCase().includes(searchQuery.toLowerCase()))
-  );
-
   return (
-    <div className="max-w-6xl mx-auto px-6 py-12 space-y-8">
-      {/* Header Section */}
-      <div className="space-y-2">
-        <h1 className="text-3xl font-display font-bold text-emerald-950">Komunitas & Organisasi</h1>
-        <p className="text-gray-500 text-sm">
-          Temukan berbagai komunitas yang berdedikasi menciptakan dampak nyata bagi masyarakat.
+    <div className="max-w-4xl mx-auto px-6 py-12 space-y-12 text-left">
+      {/* Hero Section */}
+      <section className="space-y-4 text-center max-w-2xl mx-auto">
+        <span className="inline-block px-3 py-1 rounded-full text-xs font-bold bg-emerald-50 text-emerald-700 border border-emerald-100 uppercase tracking-wider">
+          Tentang Kami
+        </span>
+        <h1 className="text-4xl font-display font-extrabold text-emerald-950 leading-tight">
+          Voluntree Foundation
+        </h1>
+        <p className="text-gray-500 text-base leading-relaxed">
+          Voluntree Foundation adalah organisasi sosial nirlaba yang berdedikasi untuk mendorong kolaborasi, aksi kepedulian nyata, dan transformasi berkelanjutan di tengah masyarakat.
         </p>
-      </div>
+      </section>
 
-      {/* Search Input */}
-      <div className="flex gap-4 p-4 glass-panel rounded-2xl">
-        <input
-          type="text"
-          className="glass-input"
-          placeholder="Cari nama komunitas, alamat, atau deskripsi..."
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
-        />
-      </div>
-
-      {/* Loading state */}
-      {loading ? (
-        <p className="text-gray-500 font-bold text-center py-12">Memuat daftar komunitas...</p>
-      ) : (
-        <div>
-          {/* Grid Layout */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {filteredOrgs.map((org) => (
-              <div
-                key={org.id}
-                className="glass-card flex flex-col p-6 rounded-3xl relative hover:scale-[1.01] hover:border-emerald-300 transition-all duration-200"
-              >
-                {/* Community avatar / icon */}
-                <div className="flex items-center gap-4 mb-4">
-                  <div className="flex items-center justify-center w-12 h-12 rounded-2xl bg-gradient-to-br from-emerald-50 to-teal-50 border border-emerald-100 text-2xl shadow-inner">
-                    🏢
-                  </div>
-                  <div>
-                    <h3 className="font-display font-bold text-lg text-emerald-950 line-clamp-1">
-                      {org.org_name}
-                    </h3>
-                    {org.is_verified && (
-                      <span className="inline-flex items-center gap-1 text-[10px] font-bold text-emerald-700 bg-emerald-50 border border-emerald-100 px-2 py-0.5 rounded-full">
-                        ✓ Terverifikasi
-                      </span>
-                    )}
-                  </div>
-                </div>
-
-                {/* Description */}
-                <p className="text-gray-500 text-sm mb-4 line-clamp-3 min-h-[60px]">
-                  {org.description || "Tidak ada deskripsi yang tersedia untuk organisasi ini."}
-                </p>
-
-                {/* Info List */}
-                <div className="space-y-2 mb-6 mt-auto text-xs text-gray-500">
-                  <div className="flex items-start gap-2">
-                    <span className="text-sm">📍</span>
-                    <span className="line-clamp-2">{org.address || "Lokasi tidak dicantumkan"}</span>
-                  </div>
-                </div>
-
-                {/* Action button */}
-                <button
-                  onClick={() => navigate(`/events?organization_id=${org.id}`)}
-                  className="w-full btn-pill-primary py-2.5 text-xs font-bold"
-                >
-                  Lihat Kegiatan Sosial
-                </button>
-              </div>
-            ))}
-          </div>
-
-          {/* Empty state */}
-          {filteredOrgs.length === 0 && (
-            <div className="text-center py-12 glass-panel rounded-2xl space-y-2">
-              <strong className="block text-emerald-950 text-lg">
-                Tidak ada komunitas yang ditemukan.
-              </strong>
-              <p className="text-gray-500 text-sm">
-                Coba gunakan kata kunci pencarian yang lain.
-              </p>
-            </div>
-          )}
+      {/* Grid: Visi & Misi */}
+      <section className="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div className="glass-panel p-8 rounded-3xl space-y-3 border-emerald-100 bg-gradient-to-br from-white/80 to-emerald-50/10">
+          <span className="text-3xl">👁️‍🗨️</span>
+          <h3 className="text-xl font-display font-bold text-emerald-950">Visi Kami</h3>
+          <p className="text-gray-600 text-sm leading-relaxed">
+            Menjadi wadah penggerak perubahan sosial terdepan yang menginspirasi individu untuk beraksi, menumbuhkan kepedulian, dan membangun ekosistem masyarakat yang harmonis dan berkelanjutan.
+          </p>
         </div>
-      )}
+
+        <div className="glass-panel p-8 rounded-3xl space-y-3 border-teal-100 bg-gradient-to-br from-white/80 to-teal-50/10">
+          <span className="text-3xl">🚀</span>
+          <h3 className="text-xl font-display font-bold text-emerald-950">Misi Kami</h3>
+          <ul className="text-gray-600 text-sm leading-relaxed space-y-2 list-disc list-inside">
+            <li>Menyelenggarakan program aksi relawan yang inklusif dan berdampak langsung bagi masyarakat.</li>
+            <li>Mengembangkan kapasitas pemuda melalui edukasi dan kepemimpinan berorientasi sosial.</li>
+            <li>Membangun kolaborasi dengan komunitas lokal dan global untuk mengatasi tantangan lingkungan hidup.</li>
+          </ul>
+        </div>
+      </section>
+
+      {/* Fokus Gerakan */}
+      <section className="space-y-6">
+        <h3 className="text-2xl font-display font-bold text-emerald-950 text-center">Fokus Gerakan Aksi Sosial</h3>
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+          {[
+            { icon: "🌿", title: "Lingkungan", desc: "Konservasi alam, bersih sungai, kampanye zero waste." },
+            { icon: "📚", title: "Pendidikan", desc: "Kelas mengajar gratis, literasi anak jalanan." },
+            { icon: "🚨", title: "Tanggap Darurat", desc: "Distribusi logistik bencana, aksi bantuan kemanusiaan." },
+            { icon: "🏥", title: "Kesehatan", desc: "Pemeriksaan kesehatan gratis, donor darah sosial." },
+          ].map((fokus, index) => (
+            <div key={index} className="glass-card p-5 rounded-2xl flex flex-col items-center text-center space-y-2 hover:border-emerald-200">
+              <span className="text-3xl mb-1">{fokus.icon}</span>
+              <h4 className="font-bold text-sm text-emerald-950">{fokus.title}</h4>
+              <p className="text-[11px] text-gray-400 leading-snug">{fokus.desc}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* Profil Kontak */}
+      <section className="glass-panel p-8 rounded-3xl space-y-6 bg-gradient-to-br from-white/80 to-emerald-50/20 border-emerald-100">
+        <h3 className="text-xl font-display font-bold text-emerald-950">Hubungi Markas Kami</h3>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-sm text-gray-600">
+          <div className="space-y-3">
+            <div className="flex items-start gap-3">
+              <span className="text-lg">📍</span>
+              <div>
+                <strong className="block text-emerald-950">Alamat Markas</strong>
+                <span>Jl. Dago No. 10, Kecamatan Coblong, Kota Bandung, Jawa Barat 40132</span>
+              </div>
+            </div>
+            <div className="flex items-start gap-3">
+              <span className="text-lg">✉️</span>
+              <div>
+                <strong className="block text-emerald-950">Email Resmi</strong>
+                <span>kontak@voluntree.id</span>
+              </div>
+            </div>
+          </div>
+          <div className="space-y-3">
+            <div className="flex items-start gap-3">
+              <span className="text-lg">📞</span>
+              <div>
+                <strong className="block text-emerald-950">Telepon & WhatsApp</strong>
+                <span>+62 812-3456-7890</span>
+              </div>
+            </div>
+            <div className="flex items-start gap-3">
+              <span className="text-lg">⏰</span>
+              <div>
+                <strong className="block text-emerald-950">Jam Operasional Kantor</strong>
+                <span>Senin - Jumat · 09:00 - 17:00 WIB</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* CTA Button */}
+      <section className="text-center">
+        <button
+          onClick={() => navigate("/events")}
+          className="btn-pill-primary px-8 py-3.5 text-sm font-bold shadow-xl shadow-emerald-500/20 hover:scale-[1.02] transition-transform"
+        >
+          Ikut Aksi Relawan Bersama Kami
+        </button>
+      </section>
     </div>
   );
 }

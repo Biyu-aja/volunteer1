@@ -4,7 +4,7 @@ import { authApi } from "../api/resources";
 import { useAuth } from "../context/AuthContext";
 
 export default function Register() {
-  const [form, setForm] = useState({ full_name: "", email: "", password: "", role: "volunteer", org_name: "" });
+  const [form, setForm] = useState({ full_name: "", email: "", password: "" });
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const { loginSuccess } = useAuth();
@@ -33,43 +33,14 @@ export default function Register() {
     <div className="max-w-md mx-auto px-6 py-12 space-y-6 text-left">
       <div className="space-y-2">
         <h1 className="text-3xl font-display font-bold text-emerald-950">Gabung Volunteer</h1>
-        <p className="text-gray-500 text-sm">Daftar sebagai volunteer atau organisasi penyelenggara kegiatan.</p>
+        <p className="text-gray-500 text-sm">Daftar sebagai volunteer untuk berpartisipasi dalam berbagai kegiatan sosial.</p>
       </div>
 
       <form onSubmit={handleSubmit} className="glass-panel p-8 rounded-3xl space-y-5">
         <div className="space-y-2">
-          <label className="block text-sm font-bold text-emerald-950">Daftar Sebagai</label>
-          <div className="flex gap-2">
-            {["volunteer", "organization"].map((r) => (
-              <button
-                type="button"
-                key={r}
-                onClick={() => setForm({ ...form, role: r })}
-                className={`flex-1 py-2 px-4 text-xs font-bold rounded-xl border transition-all ${
-                  form.role === r 
-                    ? "bg-emerald-500 text-emerald-950 border-emerald-500 shadow-lg shadow-emerald-500/20" 
-                    : "border-gray-200 text-gray-500 hover:bg-gray-50"
-                }`}
-              >
-                {r === "volunteer" ? "Volunteer" : "Organisasi"}
-              </button>
-            ))}
-          </div>
+          <label className="block text-sm font-bold text-emerald-950">Nama Lengkap</label>
+          <input className="glass-input" name="full_name" required value={form.full_name} onChange={handleChange} placeholder="Masukkan nama lengkap" />
         </div>
-
-        <div className="space-y-2">
-          <label className="block text-sm font-bold text-emerald-950">
-            {form.role === "organization" ? "Nama Penanggung Jawab" : "Nama Lengkap"}
-          </label>
-          <input className="glass-input" name="full_name" required value={form.full_name} onChange={handleChange} placeholder={form.role === "organization" ? "Masukkan nama penanggung jawab" : "Masukkan nama lengkap"} />
-        </div>
-
-        {form.role === "organization" && (
-          <div className="space-y-2">
-            <label className="block text-sm font-bold text-emerald-950">Nama Organisasi</label>
-            <input className="glass-input" name="org_name" required value={form.org_name} onChange={handleChange} placeholder="Nama organisasi" />
-          </div>
-        )}
 
         <div className="space-y-2">
           <label className="block text-sm font-bold text-emerald-950">Email</label>

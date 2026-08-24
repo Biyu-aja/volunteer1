@@ -1,6 +1,5 @@
 const sequelize = require("../config/database");
 const User = require("./User");
-const Organization = require("./Organization");
 const Category = require("./Category");
 const Event = require("./Event");
 const Registration = require("./Registration");
@@ -8,14 +7,6 @@ const Registration = require("./Registration");
 // =========================================================
 // Rancangan relasi antar entitas (Kompetensi #2)
 // =========================================================
-
-// 1 User (role organization) <-> 1 Organization
-User.hasOne(Organization, { foreignKey: "user_id", onDelete: "CASCADE" });
-Organization.belongsTo(User, { foreignKey: "user_id" });
-
-// 1 Organization -> N Events
-Organization.hasMany(Event, { foreignKey: "organization_id", onDelete: "CASCADE" });
-Event.belongsTo(Organization, { foreignKey: "organization_id" });
 
 // 1 Category -> N Events
 Category.hasMany(Event, { foreignKey: "category_id" });
@@ -35,7 +26,6 @@ Registration.belongsTo(User, { foreignKey: "user_id" });
 module.exports = {
   sequelize,
   User,
-  Organization,
   Category,
   Event,
   Registration,

@@ -10,8 +10,8 @@ router.get("/", listEvents);
 router.get("/stats/popular", popularEvents);
 router.get("/stats/public", publicStats);
 router.get("/:id", getEventById);
-router.post("/", authenticate, authorize("organization"), createEvent);
-router.put("/:id", authenticate, authorize("organization"), updateEvent);
-router.delete("/:id", authenticate, authorize("organization"), deleteEvent);
+router.post("/", authenticate, authorize("admin"), createEvent);
+router.put("/:id", authenticate, authorize("admin"), updateEvent);
+router.delete("/:id", authenticate, authorize("admin"), deleteEvent);
 
 module.exports = router;

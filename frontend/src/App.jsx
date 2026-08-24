@@ -10,7 +10,6 @@ import EventDetail from "./pages/EventDetail";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Dashboard from "./pages/Dashboard";
-import OrgDashboard from "./pages/OrgDashboard";
 import AdminDashboard from "./pages/AdminDashboard";
 
 export default function App() {
@@ -30,14 +29,6 @@ export default function App() {
           element={
             <ProtectedRoute allowedRoles={["volunteer"]}>
               <Dashboard />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/org/dashboard"
-          element={
-            <ProtectedRoute allowedRoles={["organization"]}>
-              <OrgDashboard />
             </ProtectedRoute>
           }
         />

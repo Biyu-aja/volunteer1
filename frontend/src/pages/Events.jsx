@@ -7,13 +7,11 @@ export default function Events() {
   const [searchParams, setSearchParams] = useSearchParams();
   const queryCategory = searchParams.get("category_id") || "";
   const querySearch = searchParams.get("search") || "";
-  const queryOrg = searchParams.get("organization_id") || "";
 
   const [events, setEvents] = useState([]);
   const [categories, setCategories] = useState([]);
   const [search, setSearch] = useState(querySearch);
   const [categoryId, setCategoryId] = useState(queryCategory);
-  const [orgId, setOrgId] = useState(queryOrg);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -24,16 +22,15 @@ export default function Events() {
   useEffect(() => {
     setCategoryId(searchParams.get("category_id") || "");
     setSearch(searchParams.get("search") || "");
-    setOrgId(searchParams.get("organization_id") || "");
   }, [searchParams]);
 
   useEffect(() => {
     setLoading(true);
     eventApi
-      .list({ search, category_id: categoryId, organization_id: orgId, status: "published" })
+      .list({ search, category_id: categoryId, status: "published" })
       .then((res) => setEvents(res.data.data))
       .finally(() => setLoading(false));
-  }, [search, categoryId, orgId]);
+  }, [search, categoryId]);
 
   const handleCategoryChange = (e) => {
     const val = e.target.value;
@@ -41,7 +38,6 @@ export default function Events() {
     const newParams = {};
     if (search) newParams.search = search;
     if (val) newParams.category_id = val;
-    if (orgId) newParams.organization_id = orgId;
     setSearchParams(newParams);
   };
 
@@ -51,7 +47,6 @@ export default function Events() {
     const newParams = {};
     if (val) newParams.search = val;
     if (categoryId) newParams.category_id = categoryId;
-    if (orgId) newParams.organization_id = orgId;
     setSearchParams(newParams);
   };
 
@@ -76,23 +71,6 @@ export default function Events() {
           ))}
         </select>
       </div>
-
-      {orgId && (
-        <div className="flex items-center justify-between p-4 bg-emerald-50 border border-emerald-100 rounded-2xl text-emerald-800 text-sm">
-          <span>Menampilkan kegiatan dari organisasi terpilih.</span>
-          <button 
-            onClick={() => {
-              const newParams = {};
-              if (search) newParams.search = search;
-              if (categoryId) newParams.category_id = categoryId;
-              setSearchParams(newParams);
-            }}
-            className="underline font-bold hover:text-emerald-950 transition-colors"
-          >
-            Tampilkan Semua Organisasi
-          </button>
-        </div>
-      )}
 
       {loading ? (
         <p className="text-gray-500 font-bold text-center py-12">Memuat kegiatan...</p>

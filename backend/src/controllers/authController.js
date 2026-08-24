@@ -1,5 +1,5 @@
 const jwt = require("jsonwebtoken");
-const { User, Organization } = require("../models");
+const { User } = require("../models");
 const ApiError = require("../utils/ApiError");
 const asyncHandler = require("../utils/asyncHandler");
 
@@ -15,7 +15,7 @@ function generateToken(user) {
 }
 // POST /api/auth/register
 const register = asyncHandler(async (req, res) => {
-  const { full_name, email, password, role, org_name } = req.body;
+  const { full_name, email, password } = req.body;
 
   if (!full_name || !email || !password) {
     throw ApiError.badRequest("full_name, email, dan password wajib diisi");
@@ -31,16 +31,8 @@ const register = asyncHandler(async (req, res) => {
     full_name,
     email,
     password_hash: password,
-    role: role === "organization" ? "organization" : "volunteer",
+    role: "volunteer",
   });
-
-  // Jika mendaftar sebagai organisasi, buat entity Organization terkait (relasi 1-1)
-  if (user.role === "organization") {
-    await Organization.create({
-      user_id: user.id,
-      org_name: org_name || full_name,
-    });
-  }
 
   const token = generateToken(user);
   res.status(201).json({ success: true, data: { user: user.toSafeJSON(), token } });
