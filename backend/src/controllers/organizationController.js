@@ -1,4 +1,4 @@
-const { Organization, Event } = require("../models");
+const { Organization, Event, User } = require("../models");
 const ApiError = require("../utils/ApiError");
 const asyncHandler = require("../utils/asyncHandler");
 
@@ -26,4 +26,35 @@ const listOrganizations = asyncHandler(async (req, res) => {
   res.json({ success: true, data: orgs });
 });
 
-module.exports = { getMyOrganization, updateMyOrganization, listOrganizations };
+// GET /api/organizations/admin/all -> semua organisasi (termasuk yang belum diverifikasi), role: admin
+const listAllOrganizationsForAdmin = asyncHandler(async (req, res) => {
+  const orgs = await Organization.findAll({
+    include: [{ model: User, attributes: ["id", "full_name", "email", "phone", "created_at"] }],
+    order: [["created_at", "ASC"]],
+  });
+  res.json({ success: true, data: orgs });
+});
+
+// PATCH /api/organizations/:id/verify  { is_verified } -> approve/reject organisasi, role: admin
+const setOrganizationVerification = asyncHandler(async (req, res) => {
+  const org = await Organization.findByPk(req.params.id);
+  if (!org) throw ApiError.notFound("Organisasi tidak ditemukan");
+
+  const { is_verified } = req.body;
+  if (typeof is_verified !== "boolean") {
+    throw ApiError.badRequest("Field is_verified harus bernilai true/false");
+  }
+
+  org.is_verified = is_verified;
+  await org.save();
+
+  res.json({ success: true, data: org });
+});
+
+module.exports = {
+  getMyOrganization,
+  updateMyOrganization,
+  listOrganizations,
+  listAllOrganizationsForAdmin,
+  setOrganizationVerification,
+};

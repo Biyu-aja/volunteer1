@@ -43,6 +43,9 @@ export default function Navbar() {
           {user?.role === "organization" && (
             <Link to="/org/dashboard" className="text-gray-500 hover:text-emerald-800 font-semibold transition-colors">Kelola Kegiatan</Link>
           )}
+          {user?.role === "admin" && (
+            <Link to="/admin/dashboard" className="text-gray-500 hover:text-emerald-800 font-semibold transition-colors">Verifikasi Organisasi</Link>
+          )}
 
           {user && (
             <div className="flex items-center gap-3">
@@ -105,6 +108,15 @@ export default function Navbar() {
                 onClick={() => setIsOpen(false)}
               >
                 Kelola Kegiatan
+              </Link>
+            )}
+            {user?.role === "admin" && (
+              <Link 
+                to="/admin/dashboard" 
+                className="text-gray-600 hover:text-emerald-800 font-semibold py-1.5 transition-colors"
+                onClick={() => setIsOpen(false)}
+              >
+                Verifikasi Organisasi
               </Link>
             )}
           </div>
