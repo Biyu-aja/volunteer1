@@ -37,7 +37,7 @@ const applyToEvent = asyncHandler(async (req, res) => {
 const myRegistrations = asyncHandler(async (req, res) => {
   const registrations = await Registration.findAll({
     where: { user_id: req.user.id },
-    include: [{ model: Event }],
+    include: [{ model: Event, as: "event" }], // Gunakan alias eksplisit jika diset di Sequelize
     order: [["applied_at", "DESC"]],
   });
   res.json({ success: true, data: registrations });
@@ -64,10 +64,13 @@ const updateStatus = asyncHandler(async (req, res) => {
   if (!validStatuses.includes(status)) {
     throw ApiError.badRequest("Status tidak valid");
   }
-  const registration = await Registration.findByPk(req.params.id, { include: [Event] });
+  const registration = await Registration.findByPk(req.params.id, { 
+    include: [{ model: Event, as: "event" }] 
+  });
   if (!registration) throw ApiError.notFound("Data pendaftaran tidak ditemukan");
 
-  const event = registration.Event || registration.event;
+  // Mendukung instance nama properti 'event' maupun 'Event'
+  const event = registration.event || registration.Event;
   if (!event) throw ApiError.badRequest("Data kegiatan terasosiasi tidak ditemukan");
 
   registration.status = status;

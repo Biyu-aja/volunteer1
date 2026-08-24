@@ -18,10 +18,10 @@ Event.belongsToMany(User, { through: Registration, foreignKey: "event_id" });
 
 // Akses langsung ke baris Registration (untuk melihat status pendaftaran per-user/per-event)
 Event.hasMany(Registration, { foreignKey: "event_id", onDelete: "CASCADE" });
-Registration.belongsTo(Event, { foreignKey: "event_id" });
+Registration.belongsTo(Event, { foreignKey: "event_id", as: "event" });
 
 User.hasMany(Registration, { foreignKey: "user_id", onDelete: "CASCADE" });
-Registration.belongsTo(User, { foreignKey: "user_id" });
+Registration.belongsTo(User, { foreignKey: "user_id", as: "user" });
 
 module.exports = {
   sequelize,
