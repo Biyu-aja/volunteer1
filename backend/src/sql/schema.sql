@@ -48,7 +48,7 @@ CREATE TABLE events (
     end_time TIME NOT NULL,
     status enum_events_status DEFAULT 'published',
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (category_id) REFERENCES categories(id) ON DELETE SET NULL
+    FOREIGN KEY (category_id) REFERENCES categories (id) ON DELETE SET NULL
 );
 
 CREATE TABLE registrations (
@@ -58,7 +58,9 @@ CREATE TABLE registrations (
     status enum_registrations_status DEFAULT 'pending',
     notes VARCHAR(255),
     applied_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (event_id) REFERENCES events(id) ON DELETE CASCADE,
-    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+    FOREIGN KEY (event_id) REFERENCES events (id) ON DELETE CASCADE,
+    FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE,
     UNIQUE (event_id, user_id)
 );
+
+ALTER TABLE events RENAME TO event;
