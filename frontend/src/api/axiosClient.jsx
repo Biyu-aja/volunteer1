@@ -11,6 +11,16 @@ api.interceptors.request.use((config) => {
   if (token) {
     config.headers.Authorization = `Bearer ${token}`;
   }
+
+  // Menghindari duplikasi path /api/api jika baseURL sudah diakhiri dengan /api
+  if (config.baseURL && config.url) {
+    if (config.baseURL.endsWith("/api") && config.url.startsWith("/api/")) {
+      config.url = config.url.substring(4); // "/api/events" -> "/events"
+    } else if (config.baseURL.endsWith("/api/") && config.url.startsWith("/api/")) {
+      config.url = config.url.substring(5); // "/api/events" -> "events"
+    }
+  }
+
   return config;
 });
 
